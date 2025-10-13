@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {Suspense} from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios, { AxiosError } from "axios";
@@ -15,7 +15,7 @@ interface ChangePasswordProps {
   confirmNewPassword: string;
 }
 
-const ResetPasswordPage = () => {
+const ResetPasswordForm  = () => {
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get("token");
@@ -46,12 +46,18 @@ const ResetPasswordPage = () => {
         router.replace("/login");
         toast.success("Password reset successfully");
       }
-    } catch (error) {
-      const err = error as AxiosError;
-      toast.error(
-        err.response?.data?.message ||
-          "An error occurred while resetting your password"
-      );
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        if ("data" in error) {
+          toast.error(
+            "Something wrong happening while resetting your password. "
+          );
+        } else {
+          toast.error(
+            "Something wrong happening while resetting your password. "
+          );
+        }
+      }
     }
   };
 
@@ -145,5 +151,12 @@ const ResetPasswordPage = () => {
     </div>
   );
 };
+
+
+const ResetPasswordPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ResetPasswordForm />
+  </Suspense>
+);
 
 export default ResetPasswordPage;
