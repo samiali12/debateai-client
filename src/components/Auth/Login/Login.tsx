@@ -31,13 +31,7 @@ const Login = () => {
     if (isSuccess) {
       const message = data?.message || "User login";
       toast.success(message);
-      if (data?.data?.role?.toLowerCase() === "admin") {
-        router.push("/admin/dashboard");
-      }
-      if (data?.data?.role?.toLowerCase() === "user") {
-        router.refresh();
-        router.push("/user");
-      }
+      router.push("/debates");
     }
     if (isError && error) {
       if ("data" in error) {
@@ -55,10 +49,10 @@ const Login = () => {
 
   return (
     <div
-      className="flex items-center justify-center
+      className="background flex items-center justify-center
   min-h-screen overflow-auto p-4 sm:p-6 lg:p-8"
     >
-      <div className="w-full max-w-sm p-6 bg-card rounded-md  overflow-auto ">
+      <div className="w-full max-w-sm p-6 bg-card rounded-md shadow-md  overflow-auto ">
         <div className="flex items-center justify-center">
           <Logo />
         </div>

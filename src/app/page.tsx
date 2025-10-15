@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <main className="flex flex-col items-center justify-center h-screen text-center">
-      <h1 className="text-4xl font-bold mb-4 text-foreground">AI Debate Platform</h1>
-      <p className="mb-8 text-foreground">
+    <main className="flex flex-col items-center justify-center h-screen text-center background">
+      <h1 className="text-4xl font-bold mb-4 text-slate-100">AI Debate Platform</h1>
+      <p className="mb-8 font-medium tracking-wider text-slate-100">
         Engage in live, role-based debates and let AI summarize the key
         insights.
       </p>

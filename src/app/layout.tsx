@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} background antialiased`}>
+      <body className={`${montserrat.className} antialiased`}>
         <StoreProvider>
           {children}
           <ToastContainer />

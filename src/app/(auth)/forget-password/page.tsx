@@ -48,7 +48,7 @@ const ForgetPasswordPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen overflow-auto p-4 sm:p-6 lg:p-8">
+    <div className="background flex items-center justify-center min-h-screen overflow-auto p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-lg p-6 bg-card rounded-md shadow-md overflow-auto">
         <div className="flex justify-center">
           <Logo />
