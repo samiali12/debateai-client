@@ -7,30 +7,19 @@ import { useRegisterUserMutation } from "@/redux/features/auth/authApi";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 type RegisterFormInputs = {
   fullName: string;
   email: string;
   password: string;
-  role: string;
 };
-
-const user_roles = ["for_side", "admin", "aganist_side", "neutral"];
 
 const Register = () => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<RegisterFormInputs>();
   const router = useRouter();
@@ -63,10 +52,10 @@ const Register = () => {
 
   return (
     <div
-      className="flex items-center justify-center
+      className="background flex items-center justify-center
   min-h-screen overflow-auto p-4 sm:p-6 lg:p-8"
     >
-      <div className="w-full max-w-sm p-6 bg-card rounded-md  overflow-auto ">
+      <div className="w-full max-w-sm p-6 bg-card rounded-md shadow-md overflow-auto ">
         <div className="flex items-center justify-center">
           <Logo />
         </div>
@@ -159,40 +148,6 @@ const Register = () => {
                 {errors.password.message}
               </p>
             )}
-          </div>
-          <div className="w-full">
-            <Label
-              htmlFor="role"
-              className="block text-sm font-medium text-gray-600 mb-1"
-            >
-              Select Role
-            </Label>
-            <Controller
-              name="role"
-              control={control}
-              rules={{ required: "Role is required" }}
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-full text-gray-600">
-                    <SelectValue placeholder="Select Role" />{" "}
-                  </SelectTrigger>
-                  <SelectContent className="w-full">
-                    {user_roles.map((item, idx) => (
-                      <SelectItem
-                        className="w-full text-gray-700 px-4 py-2 rounded-md focus:outline-none transition-all"
-                        key={idx}
-                        value={item}
-                      >
-                        {item}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
           </div>
           <Button
             disabled={isLoading ? true : false}
