@@ -77,16 +77,19 @@ const Register = () => {
             >
               Full Name
             </Label>
-            <Input
-              {...register("fullName", {
-                required: "Full Name is required",
-              })}
-              type="text"
-              id="fullName"
-              name="fullName"
-              className="w-full text-gray-700 px-4 py-2 rounded-md focus:outline-none transition-all"
-              required
-            />
+            <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+              <Input
+                {...register("fullName", {
+                  required: "Full Name is required",
+                })}
+                type="text"
+                id="fullName"
+                name="fullName"
+                className="w-ful px-3 py-2 rounded-md bg-white transition-all duration-300 outline-none border-0"
+                required
+              />
+            </div>
+
             {errors.fullName && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.fullName.message}
@@ -100,20 +103,22 @@ const Register = () => {
             >
               Email
             </Label>
-            <Input
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^\S+@\S+\.\S+$/,
-                  message: "Invalid email address",
-                },
-              })}
-              type="email"
-              id="email"
-              name="email"
-              className="w-full text-gray-700 px-4 py-2 rounded-md focus:outline-none transition-all"
-              required
-            />
+            <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+              <Input
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: "Invalid email address",
+                  },
+                })}
+                type="email"
+                id="email"
+                name="email"
+                className="w-ful px-3 py-2 rounded-md bg-white transition-all duration-300 outline-none border-0"
+                required
+              />
+            </div>
             {errors.email && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.email.message}
@@ -128,21 +133,24 @@ const Register = () => {
             >
               Password
             </Label>
-            <Input
-              {...register("password", {
-                required: "Password is required",
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                  message:
-                    "Password must be at least 8 characters long and contain at least one letter and one number",
-                },
-              })}
-              type="password"
-              id="password"
-              name="password"
-              className="w-full text-gray-700 px-4 py-2 rounded-md focus:outline-none transition-all"
-              required
-            />
+            <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+              <Input
+                {...register("password", {
+                  required: "Password is required",
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                    message:
+                      "Password must be at least 8 characters long and contain at least one letter and one number",
+                  },
+                })}
+                type="password"
+                id="password"
+                name="password"
+                className="w-ful px-3 py-2 rounded-md bg-white transition-all duration-300 outline-none border-0"
+                required
+              />
+            </div>
+
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.password.message}

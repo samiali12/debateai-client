@@ -29,7 +29,7 @@ const DebatesSidebar = () => {
           md:translate-x-0 md:w-80
         `}
     >
-      <div className="flex items-center justify-between px-2 py-4 border-b border-border">
+      <div className="flex items-center justify-between px-2 py-4">
         <h2 className="text-lg font-semibold">Debates</h2>
         <Button
           variant="default"
@@ -42,13 +42,15 @@ const DebatesSidebar = () => {
       </div>
 
       <div className="mt-4 mb-4 hidden md:block">
-        <Input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search chats..."
-          className="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:ring focus:ring-primary"
-        />
+        <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+          <Input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search chats..."
+            className="w-full px-3 py-2 text-sm rounded-md bg-white transition-all duration-300 outline-none border-0"
+          />
+        </div>
 
         <Button className="background rounded-md w-full mt-4">
           Create New Debate

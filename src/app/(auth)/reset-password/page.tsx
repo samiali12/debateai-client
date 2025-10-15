@@ -1,6 +1,6 @@
 "use client";
 
-import React, {Suspense} from "react";
+import React, { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios, { AxiosError } from "axios";
@@ -15,7 +15,7 @@ interface ChangePasswordProps {
   confirmNewPassword: string;
 }
 
-const ResetPasswordForm  = () => {
+const ResetPasswordForm = () => {
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get("token");
@@ -85,24 +85,37 @@ const ResetPasswordForm  = () => {
               >
                 New Password
               </Label>
-              <Input
-                id="newPassword"
-                type="password"
-                className={`w-full text-gray-700 ${
-                  errors.newPassword ? "border-red-500" : "border-gray-300"
+              <div
+                className={`p-[1px] rounded-md ${
+                  errors.newPassword
+                    ? ""
+                    : "bg-gradient-to-r from-[#0575E6] to-[#00F260]"
                 }`}
-                {...register("newPassword", {
-                  required: "New password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters",
-                  },
-                  // pattern: {
-                  //   value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  //   message: "Password must contain at least one uppercase, one lowercase, one number and one special character"
-                  // }
-                })}
-              />
+              >
+                <Input
+                  id="newPassword"
+                  type="password"
+                  className={`w-full px-3 py-2 rounded-md bg-white transition-all duration-300  ${
+                    errors.newPassword
+                      ? "border-red-500"
+                      : "outline-none border-0"
+                  }`}
+                  {...register("newPassword", {
+                    required: "New password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message:
+                        "Password must contain at least one uppercase, one lowercase, one number and one special character",
+                    },
+                  })}
+                />
+              </div>
+
               {errors.newPassword && (
                 <p className="mt-1 text-sm text-red-500">
                   {errors.newPassword.message}
@@ -117,20 +130,29 @@ const ResetPasswordForm  = () => {
               >
                 Confirm New Password
               </Label>
-              <Input
-                id="confirmNewPassword"
-                type="password"
-                className={`w-full text-gray-700 ${
-                  errors.confirmNewPassword
-                    ? "border-red-500"
-                    : "border-gray-300"
+              <div
+                className={`p-[1px] rounded-md ${
+                  errors.newPassword
+                    ? ""
+                    : "bg-gradient-to-r from-[#0575E6] to-[#00F260]"
                 }`}
-                {...register("confirmNewPassword", {
-                  required: "Please confirm your new password",
-                  validate: (value) =>
-                    value === newPassword || "Passwords do not match",
-                })}
-              />
+              >
+                <Input
+                  id="confirmNewPassword"
+                  type="password"
+                  className={`w-full px-3 py-2 rounded-md bg-white transition-all duration-300  ${
+                    errors.confirmNewPassword
+                      ? "border-red-500"
+                      : "outline-none border-0"
+                  }`}
+                  {...register("confirmNewPassword", {
+                    required: "Please confirm your new password",
+                    validate: (value) =>
+                      value === newPassword || "Passwords do not match",
+                  })}
+                />
+              </div>
+
               {errors.confirmNewPassword && (
                 <p className="mt-1 text-sm text-red-500">
                   {errors.confirmNewPassword.message}
@@ -151,7 +173,6 @@ const ResetPasswordForm  = () => {
     </div>
   );
 };
-
 
 const ResetPasswordPage = () => (
   <Suspense fallback={<div>Loading...</div>}>

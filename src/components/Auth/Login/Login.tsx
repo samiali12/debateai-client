@@ -74,20 +74,22 @@ const Login = () => {
             >
               Email
             </Label>
-            <Input
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^\S+@\S+\.\S+$/,
-                  message: "Invalid email address",
-                },
-              })}
-              type="email"
-              id="email"
-              name="email"
-              className="w-full text-gray-700 px-4 py-2 rounded-md focus:outline-none transition-all"
-              required
-            />
+            <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+              <Input
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: "Invalid email address",
+                  },
+                })}
+                type="email"
+                id="email"
+                name="email"
+                className="w-ful px-3 py-2 rounded-md bg-white transition-all duration-300 outline-none border-0"
+                required
+              />
+            </div>
             {errors.email && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.email.message}
@@ -101,16 +103,18 @@ const Login = () => {
             >
               Password
             </Label>
-            <Input
-              {...register("password", {
-                required: "Password is required",
-              })}
-              type="password"
-              id="password"
-              name="password"
-              className="w-full text-gray-700 px-4 py-2 rounded-md focus:outline-none transition-all"
-              required
-            />
+            <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+              <Input
+                {...register("password", {
+                  required: "Password is required",
+                })}
+                type="password"
+                id="password"
+                name="password"
+                className="w-ful px-3 py-2 rounded-md bg-white transition-all duration-300 outline-none border-0"
+                required
+              />
+            </div>
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.password.message}

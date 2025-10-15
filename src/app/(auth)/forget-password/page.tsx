@@ -109,21 +109,24 @@ const ForgetPasswordPage = () => {
                   >
                     Email Address
                   </Label>
-                  <Input
-                    id="email"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
-                        message: "Enter a valid email address",
-                      },
-                    })}
-                    type="email"
-                    placeholder="example@email.com"
-                    className="w-full text-gray-700 px-4 py-2 rounded-md focus:outline-none transition-all"
-                    disabled={isLoading}
-                  />
+                  <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+                    <Input
+                      id="email"
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value:
+                            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                          message: "Enter a valid email address",
+                        },
+                      })}
+                      type="email"
+                      placeholder="example@email.com"
+                      className="w-ful px-3 py-2 rounded-md bg-white transition-all duration-300 outline-none border-0"
+                      disabled={isLoading}
+                    />
+                  </div>
+
                   {errors.email && (
                     <p className="text-primary pt-1 text-sm">
                       {errors.email.message}
