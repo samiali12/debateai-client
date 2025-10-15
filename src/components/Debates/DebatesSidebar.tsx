@@ -23,7 +23,7 @@ const DebatesSidebar = () => {
         border-border border-r
           fixed md:relative
           top-0 left-0
-          h-full bg-background z-[60]
+          h-full z-[60]
           transition-all duration-300 ease-in-out
           ${isMobile ? "translate-x-0 w-72" : "-translate-x-full w-0"}
           md:translate-x-0 md:w-80
