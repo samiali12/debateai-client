@@ -5,11 +5,13 @@ import React, { useState } from "react";
 import { Loader } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import NewDebate from "./NewDebate";
 
 const DebatesSidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { data, isLoading, isError, isSuccess, refetch } = useGetDebatesQuery();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
 
   const filteredDebates =
     data?.data?.filter((debate) =>
@@ -19,11 +21,12 @@ const DebatesSidebar = () => {
   return (
     <div
       className={`
+        z-[40]
         px-4
-        border-border border-r
+          border-gradient-right
           fixed md:relative
           top-0 left-0
-          h-full z-[60]
+          h-full
           transition-all duration-300 ease-in-out
           ${isMobile ? "translate-x-0 w-72" : "-translate-x-full w-0"}
           md:translate-x-0 md:w-80
@@ -52,7 +55,12 @@ const DebatesSidebar = () => {
           />
         </div>
 
-        <Button className="background rounded-md w-full mt-4">
+        <Button
+          variant="default"
+          size="sm"
+          onClick={() => setIsCreating(true)}
+          className="background rounded-md w-full mt-4 cursor-pointer"
+        >
           Create New Debate
         </Button>
       </div>
@@ -82,6 +90,14 @@ const DebatesSidebar = () => {
           </div>
         )}
       </div>
+
+      {isCreating && (
+        <NewDebate
+          open={isCreating}
+          onOpenChange={setIsCreating}
+          refetch={refetch}
+        />
+      )}
     </div>
   );
 };

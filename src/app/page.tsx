@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "AI Debate Platform",
+  description: "Join structured debates powered by AI insights.",
+};
 
 const Home = () => {
   return (

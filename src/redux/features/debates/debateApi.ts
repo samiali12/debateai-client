@@ -14,7 +14,15 @@ export const debateApi = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+    newDebate: builder.mutation({
+      query: (data) => ({
+        url: "/debates",
+        method: "POST",
+        credentials: "include",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetDebatesQuery } = debateApi;
+export const { useGetDebatesQuery, useNewDebateMutation } = debateApi;

@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
@@ -11,11 +12,6 @@ const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-montserrat",
 });
-
-export const metadata: Metadata = {
-  title: "AI Debate Platform",
-  description: "Join structured debates powered by AI insights.",
-};
 
 export default function RootLayout({
   children,
