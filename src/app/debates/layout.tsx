@@ -11,7 +11,7 @@ const layout = ({ children }: DebateLayout) => {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <DebatesSidebar />
         <div className="flex-col flex-1 h-full overflow-hidden">
-          <main className="h-full flex-1 overflow-auto">{children}</main>
+          <main className="flex-1 h-full">{children}</main>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ const DebatePage = ({ params }: { params: { id?: string | string[] } }) => {
   const idStr = Array.isArray(id) ? id[0] ?? "" : id;
 
   return (
-    <div>
+    <div className="h-full">
       <DebateChat id={idStr} />
     </div>
   );
