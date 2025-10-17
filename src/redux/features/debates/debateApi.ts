@@ -5,11 +5,28 @@ interface DebateListResponse {
   data: DebateType[];
 }
 
+interface ParticipantsListResponse {
+  data: {
+    participantId: number;
+    userId: number;
+    fullName: string;
+    email: string;
+    role: string;
+  }[];
+}
+
 export const debateApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDebates: builder.query<DebateListResponse, void>({
       query: () => ({
         url: "/debates",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    getDebateById: builder.query<{ data: DebateType }, number>({
+      query: (id) => ({
+        url: `/debates/${id}`,
         method: "GET",
         credentials: "include",
       }),
@@ -38,6 +55,24 @@ export const debateApi = apiSlice.injectEndpoints({
         body: { status },
       }),
     }),
+    joinDebate: builder.mutation({
+      query: ({ debate_id, role }) => ({
+        url: `/debates/${debate_id}/join`,
+        method: "PATCH",
+        credentials: "include",
+        body: { role },
+      }),
+    }),
+    getParticipantsList: builder.query<
+      ParticipantsListResponse,
+      { debate_id: number }
+    >({
+      query: ({ debate_id }) => ({
+        url: `/debates/${debate_id}/participants`,
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
     deleteDebate: builder.mutation({
       query: ({ debate_id }) => ({
         url: `/debates/${debate_id}`,
@@ -50,6 +85,9 @@ export const debateApi = apiSlice.injectEndpoints({
 
 export const {
   useGetDebatesQuery,
+  useGetDebateByIdQuery,
+  useGetParticipantsListQuery,
+  useJoinDebateMutation,
   useNewDebateMutation,
   useUpdateDebateMutation,
   useUpdateDebateStatusMutation,

@@ -8,8 +8,10 @@ import { Button } from "../ui/button";
 import NewDebate from "./NewDebate";
 import { DebateType } from "@/types/Debates";
 import { useDebateContext } from "@/context/DebateContext";
+import { useRouter } from "next/navigation";
 
 const DebatesSidebar = () => {
+  const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const { data, isLoading, refetch } = useGetDebatesQuery();
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +25,7 @@ const DebatesSidebar = () => {
 
   const handleDebateClick = (debate: DebateType) => {
     setDebate(debate as unknown as any);
+    router.push(`/debates/${debate.id}`);
   };
 
   return (

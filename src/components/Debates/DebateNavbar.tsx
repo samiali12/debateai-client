@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Users } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,30 +12,46 @@ import {
 import { useDebateContext } from "@/context/DebateContext";
 import {
   useDeleteDebateMutation,
+  useGetParticipantsListQuery,
   useUpdateDebateStatusMutation,
 } from "@/redux/features/debates/debateApi";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import JoinDebateDialog from "./JoinDebateDialog";
+import PartcipantsListDialog from "./PartcipantsListDialog";
 
 const DebateNavbar = () => {
   const { debate, setDebate } = useDebateContext();
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const [updateStatus, updateStatusState] = useUpdateDebateStatusMutation();
   const [deleteDebate, deleteState] = useDeleteDebateMutation();
 
-  const { isSuccess, isError, error } = updateStatusState;
-  const {
-    isLoading: isDeleteLoading,
-    isSuccess: isDeleted,
-    isError: isDeleteError,
-    error: deleteError,
-  } = deleteState;
+  const [joinDebate, setJoinDebate] = useState(false);
+  const [openParticipantListDialog, setOpenParticipantsListDialog] =
+    useState(false);
+
+  const { data: participantsData } = useGetParticipantsListQuery(
+    { debate_id: debate?.id },
+    { skip: !debate?.id }
+  );
+
+  const participants = participantsData?.data || [];
+
+  const hasJoined = useMemo(
+    () => participants.some((p: any) => p.userId === user?.id),
+    [participants, user]
+  );
+
+  const { isError, error } = updateStatusState;
+  const { isError: isDeleteError, error: deleteError } = deleteState;
 
   const handleUpdateStatus = async (
     status: "pending" | "active" | "completed" | "archived"
   ) => {
     if (!debate?.id) return;
-
-    // optimistic update
     setDebate((prev) => ({ ...prev, status }));
     try {
       const res = await updateStatus({ debate_id: debate.id, status }).unwrap();
@@ -51,7 +67,13 @@ const DebateNavbar = () => {
     try {
       await deleteDebate({ debate_id: debate.id }).unwrap();
       toast.success("Debate deleted successfully");
-      setDebate({ title: "", description: "", id: 0, status: "pending" });
+      setDebate({
+        title: "",
+        description: "",
+        id: 0,
+        status: "pending",
+        created_by: 0,
+      });
     } catch (err: any) {
       toast.error(err?.data?.detail || "Failed to delete debate");
     }
@@ -102,7 +124,49 @@ const DebateNavbar = () => {
       {/* Right side */}
       {debate.title && (
         <div className="flex items-center gap-3">
-          {debate.status === "pending" && (
+          {/* Participants List */}
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => setOpenParticipantsListDialog(true)}
+          >
+            <Users className="w-4 h-4" /> View Participants
+          </Button>
+
+          {/* Start / End / Join */}
+          {debate.created_by === user?.id ? (
+            <>
+              {debate.status === "active" ? (
+                <Button
+                  variant={"destructive"}
+                  className="cursor-pointer rounded-md"
+                  onClick={() => handleUpdateStatus("completed")}
+                >
+                  End Debate
+                </Button>
+              ) : (
+                <Button
+                  disabled={debate.status === "completed"}
+                  onClick={() => handleUpdateStatus("active")}
+                  className="background cursor-pointer rounded-md"
+                >
+                  Start Debate
+                </Button>
+              )}
+            </>
+          ) : (
+            !hasJoined && (
+              <Button
+                onClick={() => setJoinDebate(true)}
+                className="background cursor-pointer"
+              >
+                Join
+              </Button>
+            )
+          )}
+
+          {/* Only creator can see delete option */}
+          {debate.status === "pending" && debate.created_by === user?.id && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant={"ghost"} className="cursor-pointer p-2">
@@ -110,32 +174,26 @@ const DebateNavbar = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="gradient-border" align="start">
-                <DropdownMenuItem onClick={() => handleDeleteDebate()}>
+                <DropdownMenuItem onClick={handleDeleteDebate}>
                   Delete debate
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-
-          {debate.status == "active" ? (
-            <Button
-              variant={"destructive"}
-              className="cursor-pointer rounded-md"
-              onClick={() => handleUpdateStatus("completed")}
-            >
-              End Debate
-            </Button>
-          ) : (
-            <Button
-              disabled={debate.status === "completed" ? true : false}
-              onClick={() => handleUpdateStatus("active")}
-              className="background cursor-pointer rounded-md"
-            >
-              Start Debate
-            </Button>
-          )}
         </div>
       )}
+
+      {/* Dialogs */}
+      <JoinDebateDialog
+        debate_id={debate.id}
+        open={joinDebate}
+        onOpenChange={setJoinDebate}
+      />
+      <PartcipantsListDialog
+        open={openParticipantListDialog}
+        onOpenChange={setOpenParticipantsListDialog}
+        debate_id={debate.id}
+      />
     </header>
   );
 };

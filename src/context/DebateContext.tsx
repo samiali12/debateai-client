@@ -5,6 +5,7 @@ interface Debate {
   title: string;
   description: string;
   status: "pending" | "active" | "completed" | "archived";
+  created_by: number;
 }
 
 interface DebateContextType {
@@ -20,6 +21,7 @@ export const DebateProvider = ({ children }: { children: ReactNode }) => {
     title: "",
     description: "",
     status: "active",
+    created_by: 0,
   });
   return (
     <DebateContext.Provider value={{ debate, setDebate }}>

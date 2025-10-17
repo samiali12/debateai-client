@@ -59,8 +59,8 @@ export const apiSlice = createApi({
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
-          const result = await queryFulfilled;
-          dispatch(userLoggedIn({ user: result.data.user }));
+          const res = await queryFulfilled;
+          dispatch(userLoggedIn({ user: res.data.data }));
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {}
       },

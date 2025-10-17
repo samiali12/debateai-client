@@ -1,4 +1,3 @@
-import DebateNavbar from "@/components/Debates/DebateNavbar";
 import DebatesSidebar from "@/components/Debates/DebatesSidebar";
 import React from "react";
 
@@ -12,7 +11,6 @@ const layout = ({ children }: DebateLayout) => {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <DebatesSidebar />
         <div className="flex-col flex-1 h-full overflow-hidden">
-          <DebateNavbar />
           <main className="h-full flex-1 overflow-auto">{children}</main>
         </div>
       </div>

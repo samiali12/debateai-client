@@ -22,8 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.className} antialiased`}>
         <UnifiedProvider>
-          {children}
-          <ToastContainer  />
+          <CustomLoader>
+            {children}
+            <ToastContainer />
+          </CustomLoader>
         </UnifiedProvider>
       </body>
     </html>
