@@ -22,7 +22,36 @@ export const debateApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateDebate: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/debates/${id}`,
+        method: "PATCH",
+        credentials: "include",
+        body: data,
+      }),
+    }),
+    updateDebateStatus: builder.mutation({
+      query: ({ debate_id, status }) => ({
+        url: `/debates/${debate_id}/status`,
+        method: "PATCH",
+        credentials: "include",
+        body: { status },
+      }),
+    }),
+    deleteDebate: builder.mutation({
+      query: ({ debate_id }) => ({
+        url: `/debates/${debate_id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
-export const { useGetDebatesQuery, useNewDebateMutation } = debateApi;
+export const {
+  useGetDebatesQuery,
+  useNewDebateMutation,
+  useUpdateDebateMutation,
+  useUpdateDebateStatusMutation,
+  useDeleteDebateMutation,
+} = debateApi;

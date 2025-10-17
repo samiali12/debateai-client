@@ -2,10 +2,10 @@
 
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import StoreProvider from "./StoreProvider";
 import { FC } from "react";
 import { ToastContainer } from "react-toastify";
 import { useLoadUserQuery } from "@/redux/api/apiSlice";
+import UnifiedProvider from "./UnifiedProvider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -21,10 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className} antialiased`}>
-        <StoreProvider>
+        <UnifiedProvider>
           {children}
-          <ToastContainer />
-        </StoreProvider>
+          <ToastContainer  />
+        </UnifiedProvider>
       </body>
     </html>
   );

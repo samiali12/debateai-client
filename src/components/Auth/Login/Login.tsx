@@ -41,7 +41,7 @@ const Login = () => {
         toast.error("Something went wrong");
       }
     }
-  });
+  }, [isSuccess, isError, error]);
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     await loginUser(data).unwrap();

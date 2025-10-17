@@ -6,17 +6,24 @@ import { Loader } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import NewDebate from "./NewDebate";
+import { DebateType } from "@/types/Debates";
+import { useDebateContext } from "@/context/DebateContext";
 
 const DebatesSidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const { data, isLoading, isError, isSuccess, refetch } = useGetDebatesQuery();
+  const { data, isLoading, refetch } = useGetDebatesQuery();
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreating, setIsCreating] = useState(false);
+  const { setDebate } = useDebateContext();
 
   const filteredDebates =
     data?.data?.filter((debate) =>
       debate.title.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
+
+  const handleDebateClick = (debate: DebateType) => {
+    setDebate(debate as unknown as any);
+  };
 
   return (
     <div
@@ -74,6 +81,7 @@ const DebatesSidebar = () => {
           <div className="flex flex-col gap-2">
             {data?.data.map((debate, _) => (
               <div
+                onClick={() => handleDebateClick(debate)}
                 className="px-1 py-2 rounded-lg cursor-pointer hover:bg-muted transition"
                 key={_}
               >

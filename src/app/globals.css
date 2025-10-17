@@ -37,6 +37,11 @@
 
 }
 
+.gradient-border{
+   border: 1px solid;
+  border-image: linear-gradient(to bottom, #0575E6, #00F260) 1;
+}
+
 .input-border{
   border-right: 1px solid;
   border-image: linear-gradient(to bottom, #0575E6, #00F260) 1;
