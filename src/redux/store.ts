@@ -1,14 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
 import authSlice from "./features/auth/authSlice";
-import debateSlice  from "./features/debates/debateSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       [apiSlice.reducerPath]: apiSlice.reducer,
       auth: authSlice,
-      debate: debateSlice,
     },
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
