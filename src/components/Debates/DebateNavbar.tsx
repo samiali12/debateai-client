@@ -95,7 +95,7 @@ const DebateNavbar = () => {
   }, [isError, error, isDeleteError, deleteError]);
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 py-3 border-gradient-bottom bg-background backdrop-blur-sm">
+    <header className="h-full flex items-center justify-between px-4 py-3 border-gradient-bottom bg-background backdrop-blur-sm">
       {/* Left side */}
       <div className="flex items-center gap-3">
         <div>
@@ -115,7 +115,7 @@ const DebateNavbar = () => {
               }
               className="mt-2"
             >
-              {debate.status.charAt(0).toUpperCase() + debate.status.slice(1)}
+              {debate?.status?.charAt(0).toUpperCase() + debate?.status?.slice(1)}
             </Badge>
           )}
         </div>

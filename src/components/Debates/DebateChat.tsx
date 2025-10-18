@@ -1,16 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import DebateNavbar from "./DebateNavbar";
-import { useGetDebateByIdQuery } from "@/redux/features/debates/debateApi";
+import {
+  useGetDebateByIdQuery,
+  useGetParticipantsListQuery,
+} from "@/redux/features/debates/debateApi";
 import { useDebateContext } from "@/context/DebateContext";
 import { Loader } from "lucide-react";
 import DebateChatUI from "./DebateChatUI";
+import { useSelector } from "react-redux";
 
 const DebateChat = ({ id }: { id: string }) => {
   const idNum = Number(id);
   const { setDebate } = useDebateContext();
+  const { user } = useSelector((state: any) => state.auth); // assuming you store current user in redux
+
   const { data, isLoading, isSuccess } = useGetDebateByIdQuery(idNum);
   const [socket, setSocket] = useState<WebSocket | null>(null);
+
+  const { data: participantsData, isSuccess: isParticipantsLoaded } =
+    useGetParticipantsListQuery({ debate_id: idNum }, { skip: !idNum });
+
+  // check if user is participant
+  const isParticipant = useMemo(() => {
+    if (!participantsData?.data || !user?.id) return false;
+    return participantsData.data.some((p: any) => p.userId === user.id);
+  }, [participantsData, user]);
 
   useEffect(() => {
     let ws: WebSocket | null = null;
@@ -53,15 +68,22 @@ const DebateChat = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="h-full overflow-hidden">
-      <DebateNavbar />
-      <div className="h-full">
-        {socket ? (
-          <DebateChatUI socket={socket} />
-        ) : (
+    <div className="flex flex-col h-full">
+      <header className="h-16 shrink-0">
+        <DebateNavbar />
+      </header>
+
+      <div className="flex-1 min-h-0">
+        {!socket || !isParticipantsLoaded ? (
           <div className="flex items-center justify-center h-full">
             <Loader className="animate-spin" />
           </div>
+        ) : !isParticipant ? (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            You’re not a participant in this debate.
+          </div>
+        ) : (
+          <DebateChatUI socket={socket} />
         )}
       </div>
     </div>
