@@ -35,6 +35,7 @@ const DebateChat = ({ id }: { id: string }) => {
 
       setSocket(ws);
     }
+
     return () => {
       if (ws) {
         console.log("🧹 Closing WebSocket...");
@@ -54,7 +55,6 @@ const DebateChat = ({ id }: { id: string }) => {
   return (
     <div className="h-full overflow-hidden">
       <DebateNavbar />
-
       <div className="h-full">
         {socket ? (
           <DebateChatUI socket={socket} />

@@ -1,30 +1,31 @@
 "use client";
 
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Send } from "lucide-react";
 import { useDebateContext } from "@/context/DebateContext";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-
-interface Message {
-  type: string;
-  debate_ai: string;
-  user_id: string;
-  role: string;
-  content: string;
-}
+import { ArgumentType } from "@/types/Arguments";
+import { useGetAllArgumentsQuery } from "@/redux/features/arguments/argumentsApi";
 
 interface DebateChatUIProps {
   socket: WebSocket | null;
 }
 
 const DebateChatUI = ({ socket }: DebateChatUIProps) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<ArgumentType[]>([]);
   const [content, setContent] = useState("");
   const { debate } = useDebateContext();
   const user = useSelector((state: RootState) => state.auth.user);
+
+  const { data, isSuccess } = useGetAllArgumentsQuery(
+    { debate_id: debate?.id },
+    { skip: !debate?.id }
+  );
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -35,10 +36,22 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
       user_id: user?.id,
       role: "for_side",
       content: content,
+      fullName: user?.fullName,
+      timestamp: new Date(),
     };
     socket?.send(JSON.stringify(message));
     setContent("");
   };
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    if (isSuccess && data?.data) {
+      setMessages(data.data);
+    }
+  }, [isSuccess, data]);
 
   useEffect(() => {
     if (!socket) {
@@ -47,7 +60,7 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
     }
     socket.onmessage = (event) => {
       const msg = JSON.parse(event.data);
-      console.log("data ==> ", msg);
+      console.log(msg);
       if (msg.type === "argument") {
         setMessages((prev) => [...prev, msg]);
       }
@@ -62,23 +75,39 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
           return (
             <div
               key={i}
-              className={`flex my-2 ${
-                isSender ? "justify-end" : "justify-start"
-              }`}
+              className={`flex ${isSender ? "justify-end" : "justify-start"}`}
             >
-              <div
-                className={`max-w-xs p-3 rounded-lg  ${
-                  isSender
-                    ? "background text-white"
-                    : "bg-gray-100 text-slate-900"
-                }`}
-              >
-                {msg.content}
-                <span className="text-xs"></span>
+              <div className="flex flex-col max-w-[70%]">
+                {!isSender && (
+                  <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                    <span className="font-medium text-gray-600">
+                      {msg.fullName || "Anonymous"}
+                    </span>
+                    <span className="text-[10px] bg-gray-200 px-1.5 py-[1px] rounded">
+                      {msg.role}
+                    </span>
+                  </div>
+                )}
+                <div
+                  className={`p-3 rounded-2xl shadow-sm text-sm transition-all duration-200  ${
+                    isSender
+                      ? "background text-white rounded-br-none"
+                      : "bg-gray-100 text-slate-900 rounded-bl-none"
+                  }`}
+                >
+                  {msg.content}
+                </div>
+                <span className="text-[10px] text-gray-400 mt-1">
+                  {new Date(msg.timestamp).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
               </div>
             </div>
           );
         })}
+         <div ref={messagesEndRef} />
       </div>
 
       <div className="sticky bottom-0">
