@@ -33,14 +33,14 @@ const DebatesSidebar = () => {
       className={`
         z-[40]
         px-4
-          border-gradient-right
-          fixed md:relative
-          top-0 left-0
-          h-full
-          transition-all duration-300 ease-in-out
-          ${isMobile ? "translate-x-0 w-72" : "-translate-x-full w-0"}
-          md:translate-x-0 md:w-80
-        `}
+        border-gradient-right
+        fixed md:relative
+        top-0 left-0
+        h-full
+        transition-all duration-300 ease-in-out
+        ${isMobile ? "translate-x-0 w-72" : "-translate-x-full w-0"}
+        md:translate-x-0 md:w-80
+      `}
     >
       <div className="flex items-center justify-between px-2 py-4">
         <h2 className="text-lg font-semibold">Debates</h2>

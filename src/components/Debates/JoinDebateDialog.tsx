@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { useJoinDebateMutation } from "@/redux/features/debates/debateApi";
 
 interface JoinDebateInput {
-  role: "for_side" | "against_side" | "neutral";
+  role: "for_side" | "against_side" | "neutral_side";
 }
 
 interface JoinDebateDialogProps {
@@ -24,12 +24,22 @@ interface JoinDebateDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const JoinDebateDialog = ({ debate_id, open, onOpenChange }: JoinDebateDialogProps) => {
-  const { control, handleSubmit, formState: { errors }, reset } = useForm<JoinDebateInput>({
-    defaultValues: { role: "neutral" },
+const JoinDebateDialog = ({
+  debate_id,
+  open,
+  onOpenChange,
+}: JoinDebateDialogProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<JoinDebateInput>({
+    defaultValues: { role: "neutral_side" },
   });
 
-  const [joinDebate, { isLoading, isSuccess, isError, error }] = useJoinDebateMutation();
+  const [joinDebate, { isLoading, isSuccess, isError, error }] =
+    useJoinDebateMutation();
 
   const onSubmit = async (data: JoinDebateInput) => {
     try {
@@ -56,7 +66,9 @@ const JoinDebateDialog = ({ debate_id, open, onOpenChange }: JoinDebateDialogPro
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">Join Debate</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">
+            Join Debate
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -75,9 +87,12 @@ const JoinDebateDialog = ({ debate_id, open, onOpenChange }: JoinDebateDialogPro
                   {[
                     { id: "for", label: "For", value: "for_side" },
                     { id: "against", label: "Against", value: "against_side" },
-                    { id: "neutral", label: "Neutral", value: "neutral" },
+                    { id: "neutral", label: "Neutral", value: "neutral_side" },
                   ].map((option) => (
-                    <div key={option.id} className="flex items-center space-x-2">
+                    <div
+                      key={option.id}
+                      className="flex items-center space-x-2"
+                    >
                       <RadioGroupItem value={option.value} id={option.id} />
                       <Label htmlFor={option.id}>{option.label}</Label>
                     </div>

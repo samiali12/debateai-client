@@ -73,7 +73,7 @@ const DebateChat = ({ id }: { id: string }) => {
         <DebateNavbar />
       </header>
 
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-hidden">
         {!socket || !isParticipantsLoaded ? (
           <div className="flex items-center justify-center h-full">
             <Loader className="animate-spin" />

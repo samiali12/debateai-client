@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Send } from "lucide-react";
@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { ArgumentType } from "@/types/Arguments";
 import { useGetAllArgumentsQuery } from "@/redux/features/arguments/argumentsApi";
+import { useGetParticipantsListQuery } from "@/redux/features/debates/debateApi";
 
 interface DebateChatUIProps {
   socket: WebSocket | null;
@@ -20,10 +21,18 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
   const { debate } = useDebateContext();
   const user = useSelector((state: RootState) => state.auth.user);
 
+  const { data: participantsData, isSuccess: isParticipantsLoaded } =
+    useGetParticipantsListQuery({ debate_id: debate.id }, { skip: !debate.id });
+
   const { data, isSuccess } = useGetAllArgumentsQuery(
     { debate_id: debate?.id },
     { skip: !debate?.id }
   );
+
+  const currentParticipant = useMemo(() => {
+    if (!participantsData?.data || !user?.id) return null;
+    return participantsData.data.find((p: any) => p.userId === user.id) ?? null;
+  }, [participantsData, user]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,7 +43,7 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
       type: "argument",
       debate_id: debate.id,
       user_id: user?.id,
-      role: "for_side",
+      role: currentParticipant?.role || "",
       content: content,
       fullName: user?.fullName,
       timestamp: new Date(),
@@ -109,7 +118,8 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
       <div className="sticky bottom-0">
         {debate?.status !== "active" ? (
           <div className="p-3 text-center text-sm text-gray-500 bg-white border-t">
-            Debate hasn’t started yet. You’ll be able to send arguments once it begins.
+            Debate hasn’t started yet. You’ll be able to send arguments once it
+            begins.
           </div>
         ) : (
           <form
