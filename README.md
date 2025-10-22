@@ -24,7 +24,7 @@ cessed arguments.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/<your-username>/debate-client.git
+   git clone https://github.com/samiali12/debate-client.git
    cd debate-client bash
    ```
 
