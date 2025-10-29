@@ -1,41 +1,61 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Debate Client
 
-## Getting Started
+**Debate Client** is the frontend for the **AI-Based Debate System**, a platform enabling structured debates between participants, powered by AI for argument segmentation and scoring. This client provides a smooth interface for users to register, join debates, exchange arguments in real time, and see AI-generated evaluations.
 
-First, run the development server:
+## 🚀 Features
+- 🔐 **Authentication & Roles** — Register, login, logout, and manage user roles (admin, participant, moderator).
+- 💬 **Real-Time Debate Chat** — WebSocket-based debate sessions with live updates.
+- 🧩 **AI Argument Segmentation** — Visual representation of AI-pro
+cessed arguments.
+- 🧮 **Argument Evaluation & Scoring** — Displays AI-generated feedback on argument quality.
+- 🎨 **Responsive UI** — Modern layout and adaptive design across all devices.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🏗️ Tech Stack
+| Layer | Technology |
+|-------|-------------|
+| Framework | **Next.js / React** |
+| State Management | Redux Toolkit / Context API |
+| API Handling | Axios + RTK Query |
+| Real-Time Communication | WebSockets |
+| Styling | Tailwind CSS / Shadcn UI |
+| Authentication | JWT (integrated with FastAPI backend) |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ Setup & Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/samiali12/debate-client.git
+   cd debate-client bash
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies**
+    ```bash 
+    npm install
+    # or
+    yarn install
+    ```
+3. **Configure environment variables**
+    
+    Create a .env.local file in the root directory:
 
-## Learn More
+    ```
+    NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+    NEXT_PUBLIC_WS_URL=ws://127.0.0.1:8000
+    ```
+4. **Run the development server**
+    ```
+    npm run dev
+    ```
+5. **Build for production**
+    ```
+    npm run build
+    npm start
+    ```
+### 🧾 License
+This project is licensed under the MIT License — you are free to use and modify it.
 
-To learn more about Next.js, take a look at the following resources:
+### 🤝 Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to improve.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# debateai-client
-A Nextjs powered frontend that manages structured debates, analyzes arguments, and generates AI-driven summaries and insights.
->>>>>>> 0b984ac6e86c11393baf7dfeb2b10f91bd37200f
