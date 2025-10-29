@@ -1,29 +1,9 @@
-import Link from "next/link";
+"use client";
+
+import Login from "@/components/Auth/Login/Login";
 
 const Home = () => {
-  return (
-    <main className="flex flex-col items-center justify-center h-screen text-center background">
-      <h1 className="text-4xl font-bold mb-4 text-slate-100">AI Debate Platform</h1>
-      <p className="mb-8 font-medium tracking-wider text-slate-100">
-        Engage in live, role-based debates and let AI summarize the key
-        insights.
-      </p>
-      <div className="space-x-4">
-        <Link
-          href="/login"
-          className="button  font-medium text-slate-100 px-4 py-2 rounded-md"
-        >
-          Login
-        </Link>
-        <Link
-          href="/register"
-          className="button font-medium text-slate-900 px-4 py-2 rounded-md "
-        >
-          Register
-        </Link>
-      </div>
-    </main>
-  );
+  return <Login />;
 };
 
 export default Home;
