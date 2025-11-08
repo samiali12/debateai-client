@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 interface DebateInputForm {
   title: string;
   description: string;
-  role: "for_side" | "against_side" | "neutral";
+  role: "for_side" | "against_side" | "neutral_side";
 }
 
 interface NewDebateProps {
@@ -137,7 +137,7 @@ const NewDebate = ({ open, onOpenChange, refetch }: NewDebateProps) => {
                       <Label htmlFor="against">Against</Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="neutral" id="neutral" />
+                      <RadioGroupItem value="neutral_side" id="neutral" />
                       <Label htmlFor="neutral">Neutral</Label>
                     </div>
                   </RadioGroup>
