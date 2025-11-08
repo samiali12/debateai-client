@@ -1,8 +1,8 @@
 import React from "react";
 import DebateChat from "@/components/Debates/DebateChat";
 
-const DebatePage = ({ params }: { params: { id?: string | string[] } }) => {
-  const { id } = params;
+const DebatePage = async ({ params }: { params: { id?: string | string[] } }) => {
+  const { id } = await params;
 
   if (!id) {
     return null;
