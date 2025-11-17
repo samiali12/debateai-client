@@ -95,7 +95,7 @@ const DebateNavbar = () => {
   }, [isError, error, isDeleteError, deleteError]);
 
   return (
-    <header className="h-full flex items-center justify-between px-4 py-3 border-gradient-bottom bg-background backdrop-blur-sm">
+    <header className="h-full flex items-center justify-between px-4 py-3 z-50 backdrop-blur-lg border-b border-white/10 bg-gradient-to-b from-[#3E1E68]/95 to-[#3E1E68]/80">
       {/* Left side */}
       <div className="flex items-center gap-3">
         <div>
@@ -115,7 +115,8 @@ const DebateNavbar = () => {
               }
               className="mt-2"
             >
-              {debate?.status?.charAt(0).toUpperCase() + debate?.status?.slice(1)}
+              {debate?.status?.charAt(0).toUpperCase() +
+                debate?.status?.slice(1)}
             </Badge>
           )}
         </div>
@@ -127,7 +128,7 @@ const DebateNavbar = () => {
           {/* Participants List */}
           <Button
             variant="outline"
-            className="flex items-center gap-2 cursor-pointer"
+            className="bg-gradient-to-r from-[#E45A92] to-[#FFACAC] text-white rounded-lg px-4 py-2 font-semibold text-center shadow-lg shadow-[#E45A92]/50 "
             onClick={() => setOpenParticipantsListDialog(true)}
           >
             <Users className="w-4 h-4" /> View Participants
@@ -139,7 +140,7 @@ const DebateNavbar = () => {
               {debate.status === "active" ? (
                 <Button
                   variant={"destructive"}
-                  className="cursor-pointer rounded-md"
+                  className="block px-4 py-2 rounded-lg text-white font-semibold hover:bg-white/10 transition-all duration-300 border border-white/20 text-center"
                   onClick={() => handleUpdateStatus("completed")}
                 >
                   End Debate

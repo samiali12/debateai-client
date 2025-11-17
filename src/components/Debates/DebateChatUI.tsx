@@ -84,11 +84,11 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
             >
               <div className="flex flex-col max-w-[70%]">
                 {!isSender && (
-                  <div className="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                    <span className="font-medium text-gray-600">
+                  <div className="text-xs mb-1 flex items-center gap-1">
+                    <span className="font-medium text-gray-300">
                       {msg.fullName || "Anonymous"}
                     </span>
-                    <span className="text-[10px] bg-gray-200 px-1.5 py-[1px] rounded">
+                    <span className="text-[10px] text-gray-300 bg-white/10 px-1.5 py-[1px] rounded">
                       {msg.role}
                     </span>
                   </div>
@@ -96,13 +96,13 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
                 <div
                   className={`p-3 rounded-2xl shadow-sm text-sm transition-all duration-200 ${
                     isSender
-                      ? "background text-white rounded-br-none"
-                      : "bg-gray-100 text-slate-900 rounded-bl-none"
+                      ? "bg-[#E45A92] backdrop-blur-sm text-white rounded-br-none border border-white/10 shadow-2xl"
+                      : "bg-white/5 backdrop-blur-sm text-slate-300 rounded-bl-none border border-white/10 shadow-2xl"
                   }`}
                 >
                   {msg.content}
                 </div>
-                <span className="text-[10px] text-gray-400 mt-1">
+                <span className="text-[10px] text-gray-300 mt-1">
                   {new Date(msg.timestamp).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -116,28 +116,29 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
 
       {/* 👇 Conditional message input or waiting notice */}
       <div className="sticky bottom-0">
-        {debate?.status !== "active" ? (
-          <div className="p-3 text-center text-sm text-gray-500 bg-white border-t">
+        {debate?.status === "pending" ? (
+          <div className="p-3 text-center text-sm text-gray-300 border-t">
             Debate hasn’t started yet. You’ll be able to send arguments once it
             begins.
           </div>
+        ) : ( debate.status === "completed") ? (
+          <div className="p-3 text-center text-sm text-gray-300 border-t">
+            Debate has ended. You can no longer send arguments.
+          </div>
         ) : (
-          <form
-            onSubmit={sendMessage}
-            className="flex items-center gap-2 p-3 bg-white"
-          >
-            <div className="flex-1 p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
+          <form onSubmit={sendMessage} className="flex items-center gap-2 p-3">
+            <div className="flex-1 ">
               <Input
                 type="text"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Type your argument..."
-                className="flex-1 w-full bg-white border rounded-lg px-4 py-2 focus:outline-none"
+                className="flex-1 w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E45A92] focus:border-transparent transition-all duration-300"
               />
             </div>
             <Button
               type="submit"
-              className="text-white rounded-full px-4 py-2 background"
+              className="bg-gradient-to-r from-[#E45A92] to-[#FFACAC] text-white rounded-full px-4 py-2 font-semibold shadow-md shadow-[#E45A92]/50 hover:shadow-md hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 "
             >
               <Send />
             </Button>

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -48,9 +47,9 @@ const ParticipantsListDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="bg-gradient-to-b from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] backdrop-blur-sm max-w-lg w-full rounded-2xl border border-white/10 shadow-2xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">
+          <DialogTitle className="text-lg font-bold bg-gradient-to-r from-white to-[#FFACAC] bg-clip-text text-transparent">
             Participants List
           </DialogTitle>
         </DialogHeader>
@@ -60,12 +59,12 @@ const ParticipantsListDialog = ({
             <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
           </div>
         ) : participants.length === 0 ? (
-          <p className="text-center text-sm text-muted-foreground py-6">
+          <p className="text-center text-sm text-gray-300 py-6">
             No participants yet.
           </p>
         ) : (
           <ScrollArea className="max-h-[300px]">
-            <Table>
+            <Table className="bg-white/5 rounded-lg shadow-lg p-4 my-2">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
@@ -86,7 +85,10 @@ const ParticipantsListDialog = ({
                     },
                     index: number
                   ) => (
-                    <TableRow key={participant.participantId}>
+                    <TableRow
+                      
+                      key={participant.participantId}
+                    >
                       <TableCell>{index + 1}</TableCell>
                       <TableCell className="font-medium">
                         {participant.fullName}
@@ -102,7 +104,11 @@ const ParticipantsListDialog = ({
         )}
 
         <div className="flex justify-end mt-4">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            className="bg-gradient-to-r from-[#E45A92] to-[#FFACAC]"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+          >
             Close
           </Button>
         </div>

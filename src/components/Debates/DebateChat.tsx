@@ -6,7 +6,7 @@ import {
   useGetParticipantsListQuery,
 } from "@/redux/features/debates/debateApi";
 import { useDebateContext } from "@/context/DebateContext";
-import { Loader } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import DebateChatUI from "./DebateChatUI";
 import { useSelector } from "react-redux";
 
@@ -61,14 +61,14 @@ const DebateChat = ({ id }: { id: string }) => {
 
   if (isLoading) {
     return (
-      <div className="p-4 flex items-center justify-center h-screen">
-        <Loader className="animate-spin" />
+      <div className="bg-gradient-to-b from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] p-4 flex items-center justify-center h-screen">
+        <Loader2 className="animate-spin w-10 h-10 text-[#E45A92]" />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="bg-gradient-to-b from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] flex flex-col h-full">
       <header className="h-16 shrink-0">
         <DebateNavbar />
       </header>
@@ -76,10 +76,10 @@ const DebateChat = ({ id }: { id: string }) => {
       <div className="flex-1 min-h-0 overflow-hidden">
         {!socket || !isParticipantsLoaded ? (
           <div className="flex items-center justify-center h-full">
-            <Loader className="animate-spin" />
+            <Loader2 className="animate-spin w-10 h-10 text-[#E45A92]" />
           </div>
         ) : !isParticipant ? (
-          <div className="flex items-center justify-center h-full text-gray-500">
+          <div className="flex items-center justify-center h-full text-gray-300">
             You’re not a participant in this debate.
           </div>
         ) : (
