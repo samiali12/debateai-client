@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import LogoImage from "@/assets/logo/1.png";
+import LogoImage from "@/assets/logo/debate-ai-logo-transparent.png";
 
 const Logo = () => {
   return (

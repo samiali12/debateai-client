@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
+import { CircleCheckBigIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
@@ -48,118 +48,124 @@ const ForgetPasswordPage = () => {
   };
 
   return (
-    <div className="background flex items-center justify-center min-h-screen overflow-auto p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-lg p-6 bg-card rounded-md shadow-md overflow-auto">
-        <div className="flex justify-center">
-          <Logo />
-        </div>
-        <div className="bg-white px-8">
-          {isSubmitted ? (
-            <div className="text-center space-y-4">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-                <svg
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Password Reset Email Sent
-              </h1>
-              <p className="text-gray-600">
-                We&apos;ve sent instructions to reset your password to your
-                email address. Please check your inbox and follow the
-                instructions.
-              </p>
-              <Button
-                asChild
-                className="w-full cursor-pointer py-2 px-4 auth-button rounded-md hover:bg-background/90 transition-all duration-150"
-              >
-                <Link href="/auth/login">Return to Login</Link>
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div className="text-center">
-                <h1 className="text-2xl font-semibold text-primary">
-                  Forgot Password
-                </h1>
-                <p className="text-sm text-center text-gray-500 mb-8">
-                  Enter your email to receive a password reset link
-                </p>
-              </div>
+    <div className="relative min-h-screen bg-gradient-to-b from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] flex items-center justify-center overflow-auto p-4 sm:p-6 lg:p-8">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#E45A92] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#FFACAC] rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-pulse delay-1000"></div>
+      </div>
 
-              <form
-                className="mt-6 space-y-4"
-                noValidate
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <div>
-                  <Label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-600 mb-1"
-                  >
-                    Email Address
-                  </Label>
-                  <div className="p-[1px] rounded-md bg-gradient-to-r from-[#0575E6] to-[#00F260]">
-                    <Input
-                      id="email"
-                      {...register("email", {
-                        required: "Email is required",
-                        pattern: {
-                          value:
-                            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
-                          message: "Enter a valid email address",
-                        },
-                      })}
-                      type="email"
-                      placeholder="example@email.com"
-                      className="w-ful px-3 py-2 rounded-md bg-white transition-all duration-300 outline-none border-0"
-                      disabled={isLoading}
-                    />
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 shadow-2xl">
+          <div className="flex justify-center">
+            <Logo />
+          </div>
+          <div className="px-8">
+            {isSubmitted ? (
+              <div className="text-center space-y-4">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                  <CircleCheckBigIcon className="h-8 w-8 text-white" />
+                </div>
+                <h1 className="text-2xl font-bold  bg-gradient-to-r from-white to-[#FFACAC] bg-clip-text text-transparent">
+                  Password Reset Email Sent
+                </h1>
+                <p className="text-gray-300 text-sm">
+                  We&apos;ve sent instructions to reset your password to your
+                  email address. Please check your inbox and follow the
+                  instructions.
+                </p>
+                <Button
+                  asChild
+                  className="w-full py-3 px-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-xl text-white font-semibold shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  <Link href="/auth/login">Return to Login</Link>
+                </Button>
+              </div>
+            ) : (
+              <>
+                <div className="text-center">
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-[#FFACAC] bg-clip-text text-transparent mb-2">
+                    Forgot Password
+                  </h1>
+                  <p className="text-center text-gray-300 mb-8">
+                    Enter your email to receive a password reset link
+                  </p>
+                </div>
+
+                <form
+                  className="space-y-5"
+                  noValidate
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div>
+                    <Label
+                      htmlFor="email"
+                      className="block text-sm font-semibold text-gray-200 mb-2"
+                    >
+                      Email Address
+                    </Label>
+                    <div className="">
+                      <Input
+                        id="email"
+                        {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value:
+                              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                            message: "Enter a valid email address",
+                          },
+                        })}
+                        type="email"
+                        placeholder="example@email.com"
+                        className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E45A92] focus:border-transparent transition-all duration-300"
+                        disabled={isLoading}
+                      />
+                    </div>
+
+                    {errors.email && (
+                      <p className="text-secondary text-xs mt-2 font-medium">
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
 
-                  {errors.email && (
-                    <p className="text-primary pt-1 text-sm">
-                      {errors.email.message}
-                    </p>
-                  )}
+                  <div className="mt-6">
+                    <Button
+                      disabled={isLoading}
+                      type="submit"
+                      className="w-full py-3 px-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-xl text-white font-semibold shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-20"
+                    >
+                      {isLoading ? (
+                        <>
+                          Sending...
+                        </>
+                      ) : (
+                        "Send Reset Link"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+
+                <div className="mt-6 relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-white/10"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white/5 text-gray-400">or</span>
+                  </div>
                 </div>
 
-                <div className="mt-6">
-                  <Button
-                    disabled={isLoading}
-                    type="submit"
-                    className="w-full cursor-pointer py-2 px-4 auth-button rounded-md hover:bg-background/90 transition-all duration-150"
+                <div className="mt-4 text-sm text-center text-card-foreground">
+                  Remember your password?{" "}
+                  <Link
+                    href="/login"
+                    className="text-card-foreground hover:underline font-semibold transition-colors"
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      "Send Reset Link"
-                    )}
-                  </Button>
+                    Login
+                  </Link>
                 </div>
-              </form>
-
-              <div className="mt-4 text-center text-sm text-gray-500">
-                Remember your password?{" "}
-                <Link href="/login" className="text-primary hover:underline">
-                  Login
-                </Link>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

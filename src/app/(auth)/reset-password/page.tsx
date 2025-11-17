@@ -62,42 +62,38 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="background flex items-center justify-center min-h-screen overflow-auto p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-sm p-6 bg-card rounded-md shadow-md overflow-auto">
-        <div className="flex justify-center">
-          <Logo />
-        </div>
-        <h2 className="text-2xl font-semibold text-center text-primary mb-4">
-          Reset Password
-        </h2>
-        <p className="text-sm text-center text-gray-500 mb-8">
-          Enter your new password below
-        </p>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="mt-6 w-full space-y-6"
-        >
-          <div className="space-y-4">
+    <div className="relative min-h-screen bg-gradient-to-b from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] flex items-center justify-center overflow-auto p-4 sm:p-6 lg:p-8">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#E45A92] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#FFACAC] rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 shadow-2xl">
+          <div className="flex items-center justify-center">
+            <Logo />
+          </div>
+          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-white to-[#FFACAC] bg-clip-text text-transparent mb-2">
+            Reset Password
+          </h2>
+          <p className="text-center text-gray-300 mb-8">
+            Enter your new password below
+          </p>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
               <Label
                 htmlFor="newPassword"
-                className="mb-2 block text-sm font-medium text-gray-600"
+                className="block text-sm font-semibold text-gray-200 mb-2"
               >
                 New Password
               </Label>
-              <div
-                className={`p-[1px] rounded-md ${
-                  errors.newPassword
-                    ? ""
-                    : "bg-gradient-to-r from-[#0575E6] to-[#00F260]"
-                }`}
-              >
+              <div className="">
                 <Input
                   id="newPassword"
                   type="password"
-                  className={`w-full px-3 py-2 rounded-md bg-white transition-all duration-300  ${
+                  className={`w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E45A92] focus:border-transparent transition-all duration-300  ${
                     errors.newPassword
-                      ? "border-red-500"
+                      ? "text-secondary text-xs mt-2 font-medium"
                       : "outline-none border-0"
                   }`}
                   {...register("newPassword", {
@@ -117,7 +113,7 @@ const ResetPasswordForm = () => {
               </div>
 
               {errors.newPassword && (
-                <p className="mt-1 text-sm text-red-500">
+                <p className="text-secondary text-xs mt-2 font-medium">
                   {errors.newPassword.message}
                 </p>
               )}
@@ -126,21 +122,21 @@ const ResetPasswordForm = () => {
             <div>
               <Label
                 htmlFor="confirmNewPassword"
-                className="mb-2 block text-sm font-medium text-gray-600"
+                className="block text-sm font-semibold text-gray-200 mb-2"
               >
                 Confirm New Password
               </Label>
               <div
                 className={`p-[1px] rounded-md ${
                   errors.newPassword
-                    ? ""
-                    : "bg-gradient-to-r from-[#0575E6] to-[#00F260]"
+                    ? "text-secondary text-xs mt-2 font-medium"
+                    : ""
                 }`}
               >
                 <Input
                   id="confirmNewPassword"
                   type="password"
-                  className={`w-full px-3 py-2 rounded-md bg-white transition-all duration-300  ${
+                  className={`w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E45A92] focus:border-transparent transition-all duration-300  ${
                     errors.confirmNewPassword
                       ? "border-red-500"
                       : "outline-none border-0"
@@ -154,21 +150,21 @@ const ResetPasswordForm = () => {
               </div>
 
               {errors.confirmNewPassword && (
-                <p className="mt-1 text-sm text-red-500">
+                <p className="text-secondary text-xs mt-2 font-medium">
                   {errors.confirmNewPassword.message}
                 </p>
               )}
             </div>
-          </div>
 
-          <Button
-            type="submit"
-            className="w-full cursor-pointer py-2 px-4 auth-button rounded-md hover:bg-background/90 transition-all duration-150"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Resetting..." : "Reset Password"}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="w-full py-3 px-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-xl text-white font-semibold shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Resetting..." : "Reset Password"}
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );
