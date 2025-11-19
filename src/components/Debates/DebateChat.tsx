@@ -67,6 +67,14 @@ const DebateChat = ({ id }: { id: string }) => {
     );
   }
 
+  if (!isSuccess || !data?.data) {
+    return (
+      <div className="bg-gradient-to-b from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] p-4 flex items-center justify-center h-screen text-gray-300">
+        Debate not found.
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gradient-to-b from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] flex flex-col h-full">
       <header className="h-16 shrink-0">

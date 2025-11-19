@@ -45,6 +45,8 @@ const DebateNavbar = () => {
     [participants, user]
   );
 
+  console.log("Participants:", hasJoined);
+
   const { isError, error } = updateStatusState;
   const { isError: isDeleteError, error: deleteError } = deleteState;
 
@@ -93,6 +95,8 @@ const DebateNavbar = () => {
           : "Failed to delete debate"
       );
   }, [isError, error, isDeleteError, deleteError]);
+
+  console.log(debate.created_by, user?.id);
 
   return (
     <header className="h-full flex items-center justify-between px-4 py-3 z-50 backdrop-blur-lg border-b border-white/10 bg-gradient-to-b from-[#3E1E68]/95 to-[#3E1E68]/80">
@@ -149,7 +153,7 @@ const DebateNavbar = () => {
                 <Button
                   disabled={debate.status === "completed"}
                   onClick={() => handleUpdateStatus("active")}
-                  className="background cursor-pointer rounded-md"
+                  className="py-3 px-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-xl text-white font-semibold shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   Start Debate
                 </Button>
@@ -159,7 +163,7 @@ const DebateNavbar = () => {
             !hasJoined && (
               <Button
                 onClick={() => setJoinDebate(true)}
-                className="background cursor-pointer"
+                className="py-3 px-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-xl text-white font-semibold shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 Join
               </Button>
@@ -175,7 +179,7 @@ const DebateNavbar = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="gradient-border" align="start">
-                <DropdownMenuItem onClick={handleDeleteDebate}>
+                <DropdownMenuItem onClick={handleDeleteDebate} className="bg-red-500 hover:bg-red-600 text-white">
                   Delete debate
                 </DropdownMenuItem>
               </DropdownMenuContent>

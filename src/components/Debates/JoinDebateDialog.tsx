@@ -64,16 +64,18 @@ const JoinDebateDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="bg-gradient-to-br from-[#3E1E68] via-[#2a1447] to-[#1a0c2e] backdrop-blur-sm rounded-2xl border border-white/10 shadow-2xl">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">
+          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white to-[#FFACAC] bg-clip-text text-transparent">
             Join Debate
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <Label>Select Your Role</Label>
+            <Label className="block text-sm font-semibold text-gray-200 mb-2">
+              Select Your Role
+            </Label>
             <Controller
               name="role"
               control={control}
@@ -108,7 +110,7 @@ const JoinDebateDialog = ({
           <Button
             disabled={isLoading}
             type="submit"
-            className="w-full background cursor-pointer"
+            className="w-full py-3 px-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-xl text-white font-semibold shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {isLoading ? "Joining..." : "Join Debate"}
           </Button>
