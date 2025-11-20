@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Send } from "lucide-react";
@@ -47,6 +47,7 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
       content: content,
       fullName: user?.fullName,
       timestamp: new Date(),
+      temp_id: crypto.randomUUID(),
     };
     socket?.send(JSON.stringify(message));
     setContent("");
@@ -69,6 +70,21 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
       if (msg.type === "argument") {
         setMessages((prev) => [...prev, msg]);
       }
+      if (msg.type === "civility_analysis") {
+        console.log("Received civility analysis:", msg);
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.temp_id === msg.temp_id
+              ? {
+                  ...m,
+                  civility_score: msg.civility_score,
+                  toxicity_score: msg.toxicity_score,
+                  flag: msg.flag,
+                }
+              : m
+          )
+        );
+      }
     };
   }, [socket]);
 
@@ -77,37 +93,66 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
       <div className="flex-1 overflow-y-auto p-4 space-y-3 pb-[72px]">
         {messages.map((msg, i) => {
           const isSender = Number(msg.user_id) === user?.id;
+
           return (
             <div
               key={i}
               className={`flex ${isSender ? "justify-end" : "justify-start"}`}
             >
-              <div className="flex flex-col max-w-[70%]">
+              <div className="flex flex-col max-w-[75%] gap-1">
                 {!isSender && (
-                  <div className="text-xs mb-1 flex items-center gap-1">
+                  <div className="flex items-center gap-2 text-xs ">
                     <span className="font-medium text-gray-300">
                       {msg.fullName || "Anonymous"}
                     </span>
-                    <span className="text-[10px] text-gray-300 bg-white/10 px-1.5 py-[1px] rounded">
+                    <span
+                      className={`px-2 py-[2px] rounded text-[10px] uppercase tracking-wide 
+            ${
+              msg.role === "for_side"
+                ? "bg-green-500/20 text-green-300"
+                : msg.role === "against_side"
+                ? "bg-red-500/20 text-red-300"
+                : "bg-blue-500/20 text-blue-300"
+            }
+          `}
+                    >
                       {msg.role}
                     </span>
                   </div>
                 )}
+
                 <div
-                  className={`p-3 rounded-2xl shadow-sm text-sm transition-all duration-200 ${
+                  className={`p-3 rounded-2xl text-sm shadow-lg backdrop-blur-sm border ${
                     isSender
-                      ? "bg-[#E45A92] backdrop-blur-sm text-white rounded-br-none border border-white/10 shadow-2xl"
-                      : "bg-white/5 backdrop-blur-sm text-slate-300 rounded-bl-none border border-white/10 shadow-2xl"
+                      ? "bg-[#E45A92] text-white rounded-br-none border-white/20"
+                      : "bg-white/5 text-slate-300 rounded-bl-none border-white/10"
                   }`}
                 >
                   {msg.content}
                 </div>
-                <span className="text-[10px] text-gray-300 mt-1">
+
+                {/* Timestamp */}
+                <span className="text-[10px] text-gray-400 ml-1">
                   {new Date(msg.timestamp).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
                 </span>
+
+                <div className="text-[10px] flex items-center gap-3 mt-[2px] ml-1">
+                  <span className="text-green-300 font-medium">
+                    Civility: {(msg.civility_score * 100).toFixed(1)}%
+                  </span>
+                  {msg.flag == "toxic" ? (
+                    <span className="text-red-400 font-medium">
+                      Toxicity: {(msg.toxicity_score * 100).toFixed(1)}%
+                    </span>
+                  ) : (
+                    <span className="text-gray-400">
+                      Toxicity: {(msg.toxicity_score * 100).toFixed(1)}%
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           );
@@ -121,7 +166,7 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
             Debate hasn’t started yet. You’ll be able to send arguments once it
             begins.
           </div>
-        ) : ( debate.status === "completed") ? (
+        ) : debate.status === "completed" ? (
           <div className="p-3 text-center text-sm text-gray-300 border-t">
             Debate has ended. You can no longer send arguments.
           </div>

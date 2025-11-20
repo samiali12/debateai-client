@@ -6,4 +6,8 @@ export interface ArgumentType {
   content: string;
   fullName: string;
   timestamp: Date;
+  toxicity_score: number;
+  civility_score: number;
+  flag: string;
+  temp_id: string;
 }

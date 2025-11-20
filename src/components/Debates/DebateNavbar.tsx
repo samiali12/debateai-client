@@ -45,8 +45,6 @@ const DebateNavbar = () => {
     [participants, user]
   );
 
-  console.log("Participants:", hasJoined);
-
   const { isError, error } = updateStatusState;
   const { isError: isDeleteError, error: deleteError } = deleteState;
 
@@ -95,8 +93,6 @@ const DebateNavbar = () => {
           : "Failed to delete debate"
       );
   }, [isError, error, isDeleteError, deleteError]);
-
-  console.log(debate.created_by, user?.id);
 
   return (
     <header className="h-full flex items-center justify-between px-4 py-3 z-50 backdrop-blur-lg border-b border-white/10 bg-gradient-to-b from-[#3E1E68]/95 to-[#3E1E68]/80">
