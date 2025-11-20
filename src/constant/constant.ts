@@ -1,0 +1,1 @@
+export const ARGUMENTS_THRESHOLD = 3;

@@ -10,6 +10,8 @@ import { RootState } from "@/redux/store";
 import { ArgumentType } from "@/types/Arguments";
 import { useGetAllArgumentsQuery } from "@/redux/features/arguments/argumentsApi";
 import { useGetParticipantsListQuery } from "@/redux/features/debates/debateApi";
+import axios from "axios";
+import { ARGUMENTS_THRESHOLD } from "@/constant/constant";
 
 interface DebateChatUIProps {
   socket: WebSocket | null;
@@ -35,6 +37,7 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
   }, [participantsData, user]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const lastSuggestedIndex = useRef(0);
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -64,14 +67,26 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
   }, [isSuccess, data]);
 
   useEffect(() => {
+    const argumentMessages = messages.filter((m) => m.type === "argument");
+    if (
+      argumentMessages.length - lastSuggestedIndex.current >=
+      ARGUMENTS_THRESHOLD
+    ) {
+      fetchSuggestedQuestion(
+        argumentMessages[argumentMessages.length - 1].content
+      );
+    }
+    lastSuggestedIndex.current = argumentMessages.length;
+  }, [messages]);
+
+  useEffect(() => {
     if (!socket) return;
-    socket.onmessage = (event) => {
+    socket.onmessage = async (event) => {
       const msg = JSON.parse(event.data);
       if (msg.type === "argument") {
         setMessages((prev) => [...prev, msg]);
       }
       if (msg.type === "civility_analysis") {
-        console.log("Received civility analysis:", msg);
         setMessages((prev) =>
           prev.map((m) =>
             m.temp_id === msg.temp_id
@@ -85,14 +100,117 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
           )
         );
       }
+      if (msg.type === "ai_moderator") {
+        const moderatorMessage: ArgumentType = {
+          debate_ai: true,
+          debate_id: debate?.id || 0,
+          user_id: 0,
+          role: "moderator",
+          fullName: "AI Moderator",
+          content: msg.follow_up_question || "Moderator feedback received.",
+          fairness_warning: msg.fairness_warning,
+          toxicity_label: msg.toxicity_label,
+          timestamp: new Date(),
+          type: "moderator", // custom type
+          toxicity_score: msg.toxicity_score ?? 0,
+          civility_score: msg.civility_score ?? 1,
+          flag: msg.flag ?? null,
+          temp_id: crypto.randomUUID(),
+        };
+
+        setMessages((prev) => [...prev, moderatorMessage]);
+      }
     };
   }, [socket]);
+
+  const fetchSuggestedQuestion = async (msg: string) => {
+    try {
+      const history = messages
+        .filter((m) => m.type === "argument")
+        .map((m) => m.content);
+      const res = await axios(
+        `${process.env.NEXT_PUBLIC_API_URL}/ai-moderator/suggest-question`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          data: {
+            topic: debate?.title,
+            history: [...history, msg],
+          },
+        }
+      );
+      const data = await res.data?.data;
+      if (data?.suggestion) {
+        const systemMessage: ArgumentType = {
+          debate_ai: false,
+          debate_id: debate?.id || 0,
+          user_id: 0,
+          role: "system",
+          fullName: "System",
+          content: `💡 Suggested question: ${data.suggestion}`,
+          timestamp: new Date(),
+          type: "system",
+          toxicity_score: 0,
+          civility_score: 1,
+          fairness_warning: false,
+          toxicity_label: "",
+          flag: "",
+          temp_id: crypto.randomUUID(),
+        };
+        setMessages((prev) => [...prev, systemMessage]);
+      }
+    } catch (e) {
+      console.error("Error fetching suggested question:", e);
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 overflow-y-auto p-4 space-y-3 pb-[72px]">
         {messages.map((msg, i) => {
+          const isModerator = msg.type === "ai_moderator";
+          const isSystem = msg.type === "system";
           const isSender = Number(msg.user_id) === user?.id;
+
+          if (isSystem) {
+            return (
+              <div key={i} className="flex justify-center">
+                <div className="bg-yellow-500/20 text-yellow-200 p-3 rounded-xl max-w-[70%] text-xs border border-yellow-300/20 backdrop-blur-sm shadow">
+                  <div className="font-semibold text-center">
+                    System Message
+                  </div>
+                  <div className="mt-1">{msg.content}</div>
+                </div>
+              </div>
+            );
+          }
+
+          if (isModerator) {
+            return (
+              <div key={i} className="flex justify-center">
+                <div className="bg-blue-500/20 text-blue-200 p-3 rounded-xl max-w-[70%] text-xs border border-blue-300/20 backdrop-blur-sm shadow">
+                  <div className="font-semibold text-center">AI Moderator</div>
+
+                  {msg.toxicity_label && (
+                    <div className="mt-1">
+                      🧪 Toxicity: {msg.toxicity_label}
+                    </div>
+                  )}
+
+                  {msg.fairness_warning && (
+                    <div className="mt-1">⚖️ {msg.fairness_warning}</div>
+                  )}
+
+                  <div className="text-[9px] text-gray-300 mt-1 text-center">
+                    {new Date(msg.timestamp).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+          }
 
           return (
             <div

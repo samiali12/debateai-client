@@ -1,7 +1,8 @@
 export interface ArgumentType {
   type: string;
-  debate_ai: string;
-  user_id: string;
+  debate_ai: boolean;
+  debate_id: number
+  user_id: number;
   role: string;
   content: string;
   fullName: string;
@@ -10,4 +11,6 @@ export interface ArgumentType {
   civility_score: number;
   flag: string;
   temp_id: string;
+  fairness_warning: false;
+  toxicity_label: string;
 }
