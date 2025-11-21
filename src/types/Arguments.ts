@@ -1,7 +1,7 @@
 export interface ArgumentType {
   type: string;
   debate_ai: boolean;
-  debate_id: number
+  debate_id: number;
   user_id: number;
   role: string;
   content: string;
@@ -13,4 +13,8 @@ export interface ArgumentType {
   temp_id: string;
   fairness_warning: false;
   toxicity_label: string;
+  relevance_score: number;
+  evidence_score: number;
+  consistency_score: number;
+  overall_strength: number;
 }
