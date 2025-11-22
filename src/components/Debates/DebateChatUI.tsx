@@ -193,8 +193,8 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 pb-[72px]">
+    <div className="flex flex-col h-full min-h-0 w-full relative">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
         {messages.map((msg, i) => {
           const isModerator = msg.type === "ai_moderator";
           const isSystem = msg.type === "system";
@@ -352,18 +352,18 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
       </div>
 
       {/* 👇 Conditional message input or waiting notice */}
-      <div className="sticky bottom-0">
+      <div className="shrink-0 mt-auto p-4 z-10">
         {debate?.status === "pending" ? (
-          <div className="p-3 text-center text-sm text-gray-300 border-t">
+          <div className="text-center text-sm text-gray-300">
             Debate hasn’t started yet. You’ll be able to send arguments once it
             begins.
           </div>
         ) : debate.status === "completed" ? (
-          <div className="p-3 text-center text-sm text-gray-300 border-t">
+          <div className="text-center text-sm text-gray-300">
             Debate has ended. You can no longer send arguments.
           </div>
         ) : (
-          <form onSubmit={sendMessage} className="flex items-center gap-2 p-3">
+          <form onSubmit={sendMessage} className="flex items-center gap-2">
             <div className="flex-1 ">
               <Input
                 type="text"
@@ -375,7 +375,7 @@ const DebateChatUI = ({ socket }: DebateChatUIProps) => {
             </div>
             <Button
               type="submit"
-              className="bg-gradient-to-r from-[#E45A92] to-[#FFACAC] text-white rounded-full px-4 py-2 font-semibold shadow-md shadow-[#E45A92]/50 hover:shadow-md hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70 "
+              className="bg-gradient-to-r from-[#E45A92] to-[#FFACAC] text-white rounded-full px-4 py-2 font-semibold shadow-md shadow-[#E45A92]/50 hover:shadow-md hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 disabled:opacity-70"
             >
               <Send />
             </Button>

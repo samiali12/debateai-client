@@ -24,7 +24,7 @@ import PartcipantsListDialog from "./PartcipantsListDialog";
 import { useRouter } from "next/navigation";
 
 const DebateNavbar = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { debate, setDebate } = useDebateContext();
   const user = useSelector((state: RootState) => state.auth.user);
 
@@ -97,45 +97,33 @@ const DebateNavbar = () => {
   }, [isError, error, isDeleteError, deleteError]);
 
   return (
-    <header className="h-full flex items-center justify-between px-4 py-3 z-50 backdrop-blur-lg border-b border-white/10 bg-gradient-to-b from-[#3E1E68]/95 to-[#3E1E68]/80">
+    <header className="h-full flex items-center justify-between px-4 py-2 z-50 backdrop-blur-lg border-b border-white/10 bg-gradient-to-b from-[#3E1E68]/95 to-[#3E1E68]/80">
       {/* Left side */}
-      <div className="flex items-center gap-3">
-        <div>
-          <h2 className="text-base font-semibold leading-none">
-            {debate.title || "No Debate Selected"}
-          </h2>
-          {debate.title && (
-            <Badge
-              variant={
-                debate.status === "pending"
-                  ? "outline"
-                  : debate.status === "active"
-                  ? "default"
-                  : debate.status === "completed"
-                  ? "destructive"
-                  : "default"
-              }
-              className="mt-2"
-            >
-              {debate?.status?.charAt(0).toUpperCase() +
-                debate?.status?.slice(1)}
-            </Badge>
-          )}
-        </div>
+      <div className="flex justify-center items-center gap-3">
+        <h2 className="text-base font-semibold leading-none">
+          {debate.title || "No Debate Selected"}
+        </h2>
+        {debate.title && (
+          <Badge
+            variant={
+              debate.status === "pending"
+                ? "outline"
+                : debate.status === "active"
+                ? "default"
+                : debate.status === "completed"
+                ? "destructive"
+                : "default"
+            }
+            className=""
+          >
+            {debate?.status?.charAt(0).toUpperCase() + debate?.status?.slice(1)}
+          </Badge>
+        )}
       </div>
 
       {/* Right side */}
       {debate.title && (
         <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            className="bg-gradient-to-r from-[#E45A92] to-[#FFACAC] text-white rounded-lg px-4 py-2 font-semibold text-center shadow-lg shadow-[#E45A92]/50 "
-            onClick={() => router.push(`${window.location.pathname}/analytics`)}
-          >
-            🧠 Analytics
-
-          </Button>
-
           {/* Participants List */}
           <Button
             variant="outline"
