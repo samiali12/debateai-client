@@ -21,8 +21,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import JoinDebateDialog from "./JoinDebateDialog";
 import PartcipantsListDialog from "./PartcipantsListDialog";
+import { useRouter } from "next/navigation";
 
 const DebateNavbar = () => {
+  const router = useRouter()
   const { debate, setDebate } = useDebateContext();
   const user = useSelector((state: RootState) => state.auth.user);
 
@@ -125,6 +127,15 @@ const DebateNavbar = () => {
       {/* Right side */}
       {debate.title && (
         <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            className="bg-gradient-to-r from-[#E45A92] to-[#FFACAC] text-white rounded-lg px-4 py-2 font-semibold text-center shadow-lg shadow-[#E45A92]/50 "
+            onClick={() => router.push(`${window.location.pathname}/analytics`)}
+          >
+            🧠 Analytics
+
+          </Button>
+
           {/* Participants List */}
           <Button
             variant="outline"
@@ -175,7 +186,10 @@ const DebateNavbar = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="gradient-border" align="start">
-                <DropdownMenuItem onClick={handleDeleteDebate} className="bg-red-500 hover:bg-red-600 text-white">
+                <DropdownMenuItem
+                  onClick={handleDeleteDebate}
+                  className="bg-red-500 hover:bg-red-600 text-white"
+                >
                   Delete debate
                 </DropdownMenuItem>
               </DropdownMenuContent>
