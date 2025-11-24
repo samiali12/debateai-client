@@ -15,6 +15,7 @@ import {
   useGetParticipantsListQuery,
   useUpdateDebateStatusMutation,
 } from "@/redux/features/debates/debateApi";
+import { useLazyLogoutUserQuery } from "@/redux/features/auth/authApi";
 import { useEffect, useState, useMemo } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -30,6 +31,16 @@ const DebateNavbar = () => {
 
   const [updateStatus, updateStatusState] = useUpdateDebateStatusMutation();
   const [deleteDebate, deleteState] = useDeleteDebateMutation();
+  const [triggerLogout] = useLazyLogoutUserQuery();
+
+  const handleLogout = async () => {
+    try {
+      await triggerLogout({}).unwrap();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   const [joinDebate, setJoinDebate] = useState(false);
   const [openParticipantListDialog, setOpenParticipantsListDialog] =
@@ -121,7 +132,8 @@ const DebateNavbar = () => {
         )}
       </div>
 
-      {/* Right side */}
+      <div className="flex items-center">
+        {/* Right side */}
       {debate.title && (
         <div className="flex items-center gap-3">
           {/* Participants List */}
@@ -185,6 +197,28 @@ const DebateNavbar = () => {
           )}
         </div>
       )}
+      
+      {/* User Menu */}
+      {user && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="default" className="relative h-8 w-8 rounded-full ml-4">
+              <div className="flex h-full w-full items-center justify-center rounded-full">
+                {user.fullName?.charAt(0).toUpperCase() || "U"}
+              </div>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56 bg-white/15 backdrop-blur" align="end" forceMount>
+            <DropdownMenuItem onClick={() => router.push("/profile")}>
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+      </div>
 
       {/* Dialogs */}
       <JoinDebateDialog

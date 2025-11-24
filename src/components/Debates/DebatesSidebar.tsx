@@ -9,6 +9,7 @@ import NewDebate from "./NewDebate";
 import { DebateType } from "@/types/Debates";
 import { useDebateContext } from "@/context/DebateContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const DebatesSidebar = () => {
   const router = useRouter();
@@ -45,7 +46,7 @@ const DebatesSidebar = () => {
       `}
     >
       <div className="flex items-center justify-between px-2 py-4">
-        <h2 className="text-lg font-semibold">Debates</h2>
+        <Link href="/" className="text-lg font-semibold">Debates</Link>
         <Button
           variant="default"
           size="icon"
