@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Analytics from "./Analytics";
 import ConsensusResult from "./ConsensusResult";
+import SummaryAndReport from "./Summary";
 
 const DebateChat = ({ id }: { id: string }) => {
   const idNum = Number(id);
@@ -85,16 +86,17 @@ const DebateChat = ({ id }: { id: string }) => {
       </header>
 
       <div className="flex-1 flex flex-col min-h-0 relative">
-        <Tabs
-          defaultValue="chat"
-          className="w-full h-full flex flex-col"
-        >
+        <Tabs defaultValue="chat" className="w-full h-full flex flex-col">
           <TabsList className="w-full bg-[#2a1447] text-gray-300 shrink-0">
             <TabsTrigger value="chat">Live Chat</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="consensus">Consensus</TabsTrigger>
+            <TabsTrigger value="report">Summary and Report</TabsTrigger>
           </TabsList>
-          <TabsContent value="chat" className="flex-1 h-full min-h-0 data-[state=active]:flex flex-col mt-0">
+          <TabsContent
+            value="chat"
+            className="flex-1 h-full min-h-0 data-[state=active]:flex flex-col mt-0"
+          >
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-20 left-10 w-72 h-72 bg-[#E45A92] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
               <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#FFACAC] rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-pulse delay-1000"></div>
@@ -111,11 +113,23 @@ const DebateChat = ({ id }: { id: string }) => {
               <DebateChatUI socket={socket} />
             )}
           </TabsContent>
-          <TabsContent value="analytics" className="flex-1 h-full min-h-0 data-[state=active]:flex flex-col mt-0">
+          <TabsContent
+            value="analytics"
+            className="flex-1 h-full min-h-0 data-[state=active]:flex flex-col mt-0"
+          >
             <Analytics debateId={idNum} />
           </TabsContent>
-          <TabsContent value="consensus" className="flex-1 h-full min-h-0 data-[state=active]:flex flex-col mt-0">
+          <TabsContent
+            value="consensus"
+            className="flex-1 h-full min-h-0 data-[state=active]:flex flex-col mt-0"
+          >
             <ConsensusResult debateId={Number(idNum)} />
+          </TabsContent>
+          <TabsContent
+            value="report"
+            className="flex-1 h-full min-h-0 data-[state=active]:flex flex-col mt-0"
+          >
+            <SummaryAndReport debateId={Number(idNum)} />
           </TabsContent>
         </Tabs>
       </div>
