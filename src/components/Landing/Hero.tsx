@@ -34,7 +34,7 @@ const Hero = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-20">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#E45A92]/50 transition-all duration-300">
-            <div className="text-4xl font-bold text-[#FFACAC] mb-2">100K+</div>
+            <div className="text-4xl font-bold text-[#FFACAC] mb-2">1+</div>
             <div className="text-gray-300">Debates Hosted</div>
           </div>
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#E45A92]/50 transition-all duration-300">
