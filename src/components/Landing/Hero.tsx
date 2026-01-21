@@ -1,4 +1,5 @@
 import { Sparkles, MessageSquare, Zap } from "lucide-react";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -21,15 +22,11 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-          <button className="group relative px-8 py-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-full text-white font-semibold text-lg shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 flex items-center gap-2">
+          <Link href="/register" className="group relative px-8 py-4 bg-gradient-to-r from-[#E45A92] to-[#FFACAC] rounded-full text-white font-semibold text-lg shadow-lg shadow-[#E45A92]/50 hover:shadow-xl hover:shadow-[#E45A92]/70 transition-all duration-300 hover:scale-105 flex items-center gap-2">
             <MessageSquare className="w-5 h-5" />
             Start a Debate
             <Zap className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-          </button>
-
-          <button className="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-full text-white font-semibold text-lg border-2 border-[#E45A92]/50 hover:bg-white/20 hover:border-[#E45A92] transition-all duration-300">
-            Explore Features
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-20">
