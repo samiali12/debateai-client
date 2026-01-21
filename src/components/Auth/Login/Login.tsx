@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Button } from "../../ui/button";
 import { useLoggedInUserMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-toastify";
-import { MessageSquare } from "lucide-react";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 type LoginFormInputs = {
   email: string;
@@ -24,6 +24,8 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginFormInputs>();
   const router = useRouter();
+
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const [loginUser, { isLoading, isError, error, isSuccess, data }] =
     useLoggedInUserMutation();
@@ -100,6 +102,7 @@ const Login = () => {
                 </p>
               )}
             </div>
+
             <div>
               <Label
                 htmlFor="password"
@@ -107,24 +110,39 @@ const Login = () => {
               >
                 Password
               </Label>
-              <div className="">
+
+              <div className="relative">
                 <Input
                   {...register("password", {
                     required: "Password is required",
                   })}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
-                  name="password"
-                  className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E45A92] focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 pr-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E45A92] focus:border-transparent transition-all duration-300"
                   required
                 />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOffIcon size={20} />
+                  ) : (
+                    <EyeIcon size={20} />
+                  )}
+                </button>
               </div>
+
               {errors.password && (
                 <p className="text-secondary text-xs mt-2 font-medium">
                   {errors.password.message}
                 </p>
               )}
             </div>
+
             <div className="text-right">
               <Link
                 href="/forget-password"
